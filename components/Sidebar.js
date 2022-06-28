@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import logo from '../assets/amazon_logo.png'
+import logoFull from '../assets/amazon_logo_full.png'
 import Image from 'next/image'
+import { FaBox } from 'react-icons/fa'
+import { BsFillBookmarkFill } from 'react-icons/bs'
+import { BsFillPersonFill } from 'react-icons/bs'
+import { AmazonContext } from '../context/AmazonContext'
 import { ConnectButton } from 'web3uikit'
+import { AiOutlineHistory } from 'react-icons/ai'
+import Link from 'next/link'
 
-const isAuthenticated = true
-const username = ''
 const Sidebar = () => {
   const styles = {
     container: `h-full w-[300px] flex flex-col bg-[#fff] static`,
@@ -21,6 +27,16 @@ const Sidebar = () => {
     setNickname: `text-lg font-bold flex flex-1 items-center mt-[20px] mb-[20px] text-white`,
   }
 
+  const {
+    isAuthenticated,
+    buyTokens,
+    getBalance,
+    nickname,
+    setNickname,
+    username,
+    handleSetUsername,
+  } = useContext(AmazonContext)
+
   return (
     <div className={styles.container}>
       <div className={styles.profile}>
@@ -28,7 +44,7 @@ const Sidebar = () => {
           <>
             <div className={styles.profilePicContainer}>
               <Image
-                src={`https://avatars.dicebear.com/api/pixel-art/${username}.svg`}
+                src={`https://avatars.dicebear.com/api/avataaars/${username}.svg`}
                 alt='profile'
                 className={styles.profilePic}
                 height={100}
@@ -42,8 +58,8 @@ const Sidebar = () => {
                     type='text'
                     placeholder='Username....'
                     className={styles.usernameInput}
-                    //value={nickname}
-                    //onChange={e => setNickname(e.target.value)}
+                    value={nickname}
+                    onChange={e => setNickname(e.target.value)}
                   />
                 </div>
                 <button
@@ -55,11 +71,49 @@ const Sidebar = () => {
               </>
             ) : (
               <div>
-                <div className={styles.welcome}>Welcome {username}</div>
+                <div className={styles.welcome}>Wecome {username}</div>
               </div>
             )}
           </>
         )}
+        <div className={styles.connectButton}>
+          <ConnectButton />
+        </div>
+      </div>
+      <div className={styles.menu}>
+        <Link href='/'>
+          <div className={styles.menuItem}>
+            <Image
+              src={logo}
+              height={30}
+              width={30}
+              className={styles.amazonLogo}
+            />
+            My Amazon
+            <br /> Board
+          </div>
+        </Link>
+        <div className={styles.menuItem}>
+          <FaBox />
+          Collections
+        </div>
+        <div className={styles.menuItem}>
+          <BsFillBookmarkFill />
+          Saved
+        </div>
+        <div className={styles.menuItem}>
+          <BsFillPersonFill />
+          Profile
+        </div>
+        <Link href='/history'>
+          <div className={styles.menuItem}>
+            <AiOutlineHistory />
+            Transaction History
+          </div>
+        </Link>
+      </div>
+      <div className={styles.companyName}>
+        <Image src={logoFull} alt='amazon' height={100} width={100} />
       </div>
     </div>
   )
